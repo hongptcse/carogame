@@ -1,0 +1,36 @@
+{
+  "name": "carogame",
+  "version": "1.0.0",
+  "description": "Game caro",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --inspect src/index.js",
+    "watch": "node-sass -w src/resources/scss -o src/public/css",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hongptcse/carogame.git"
+  },
+  "keywords": [
+    "nodejs",
+    "socketio",
+    "caro"
+  ],
+  "author": "hongptcse",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hongptcse/carogame/issues"
+  },
+  "homepage": "https://github.com/hongptcse/carogame#readme",
+  "dependencies": {
+    "express": "^4.17.3",
+    "express-handlebars": "^6.0.4",
+    "socket.io": "^4.4.1"
+  },
+  "devDependencies": {
+    "morgan": "^1.10.0",
+    "node-sass": "^7.0.1",
+    "nodemon": "^2.0.15"
+  }
+}
