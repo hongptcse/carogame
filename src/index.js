@@ -72,24 +72,30 @@ io.on("connection", function(socket){
         //chatUserList = arrayRemove(chatUserList, socket.username)
         io.sockets.emit("server-update-users", users);
 
-        // trường hợp nếu người disconnect là người chơi => thông báo cho đối thủ thắng do người chơi bỏ cuộc
-        let empty = checkBoardEmpty(arrayBoard, boardSize);
-        if(empty > 0) { 
-            // Ván đấu đã bắt đầu nếu 1 trong 2 người chơi thoát ra => thông báo người kia thắng cuộc
-            console.log("Da goi vao cho nay");
-            let otherPlayer = getOtherPlayer(users, socket.id);
-            if(otherPlayer.length > 0)
-            {
-                otherPlayer = otherPlayer[0];
+        let disconnectedUser = getCurrentUser(users, socket.id);
+        
+        if (disconnectedUser !== undefined && disconnectedUser !== null && disconnectedUser.player === 1) {
+            // trường hợp nếu người disconnect là người chơi => thông báo cho đối thủ thắng do người chơi bỏ cuộc
+            let empty = checkBoardEmpty(arrayBoard, boardSize);
+            if (empty > 0) {
+                // Ván đấu đã bắt đầu nếu 1 trong 2 người chơi thoát ra => thông báo người kia thắng cuộc
+                let otherPlayer = getOtherPlayer(users, socket.id);
+                if (otherPlayer.length > 0) {
+                    otherPlayer = otherPlayer[0];
+                }
+                console.log(otherPlayer);
+                stringWiner = "~ WINER ~";
+                io.to(otherPlayer.room).emit("server-send-winer", stringWiner);
+
+                playerLeave(users, socket.id);
             }
-            console.log(otherPlayer);
-            stringWiner = "~ WINER ~";
-            io.to(otherPlayer.room).emit("server-send-winer", stringWiner);
+            else {
+                // có thể đợi người khác vào chơi nếu ván đấu chưa bắt đầu
+                playerLeave(users, socket.id);
+            }
         }
-        else 
-        {
-            // có thể đợi người khác vào chơi nếu ván đấu chưa bắt đầu
-            playerLeave(users, socket.id);
+        else if (disconnectedUser !== undefined && disconnectedUser !== null && disconnectedUser.player === 0){
+            userLeave(users, socket.id);
         }
     });
 
@@ -151,56 +157,62 @@ io.on("connection", function(socket){
 
     socket.on("su-kien-click", function (data) {
         let usr = getCurrentUser(users, socket.id);
-        let vitri = users.indexOf(usr);
-        console.log(`Player turn: ${vitri} - ${usr.username}.`);
-        let col = data.x / 40;
-        let row = data.y / 40;
-        //Kiem tra khong cho nguoi choi gui du lieu 2 lan lien tuc len server
-        if (usr !== turnPlaylist[0]) {
-            turnPlaylist.unshift(usr);
-            if (vitri === 0) {
-                if (arrayBoard[row][col] === 0) {
-                    arrayBoard[row][col] = 1;
-                    io.sockets.emit("server-send-data", {
-                        name: usr,
-                        x: data.x,
-                        y: data.y,
-                        nguoichoi: vitri,
-                        ArrId: turnPlaylist,
-                        Board: arrayBoard,
-                        value: 1
-                    })
-                    if( Horizontal(arrayBoard, row, col, 1) 
-                        || Vertically(arrayBoard, row, col, 1) 
-                        || Diagonal(arrayBoard, row, col, 1) 
-                        || Diagonal_main(arrayBoard, row, col, 1)) {
-                        stringLoser = "YOU'RE LOSER!";
-                        stringWiner = "~ WINER ~";
-                        socket.broadcast.emit("server-send-loser", stringLoser);
-                        socket.emit("server-send-winer", stringWiner);
+        if (usr.player === 1) {
+            let vitri = users.indexOf(usr);
+            console.log(`Player turn: ${vitri} - ${usr.username}.`);
+            let col = data.x / 40;
+            let row = data.y / 40;
+            //Kiem tra khong cho nguoi choi gui du lieu 2 lan lien tuc len server
+            if (usr !== turnPlaylist[0]) {
+                turnPlaylist.unshift(usr);
+                if (vitri === 0) {
+                    if (arrayBoard[row][col] === 0) {
+                        arrayBoard[row][col] = 1;
+                        io.sockets.emit("server-send-data", {
+                            name: usr,
+                            x: data.x,
+                            y: data.y,
+                            nguoichoi: vitri,
+                            ArrId: turnPlaylist,
+                            Board: arrayBoard,
+                            value: 1
+                        })
+                        if (Horizontal(arrayBoard, row, col, 1)
+                            || Vertically(arrayBoard, row, col, 1)
+                            || Diagonal(arrayBoard, row, col, 1)
+                            || Diagonal_main(arrayBoard, row, col, 1)) {
+                            stringLoser = "YOU'RE LOSER!";
+                            stringWiner = "~ WINER ~";
+                            socket.broadcast.emit("server-send-loser", stringLoser);
+                            socket.emit("server-send-winer", stringWiner);
+
+                            io.to(usr.room + "_chatroom").emit("server-send-message", formatMessage(botName, `Congratulation ${usr.username} is WINER!!!`));
+                        }
                     }
                 }
-            }
-            else {
-                if (arrayBoard[row][col] === 0) {
-                    arrayBoard[row][col] = 2;
-                    io.sockets.emit("server-send-data", {
-                        name: usr,
-                        x: data.x,
-                        y: data.y,
-                        nguoichoi: vitri,
-                        ArrId: turnPlaylist,
-                        Board: arrayBoard,
-                        value: 2
-                    })
-                    if(Horizontal(arrayBoard, row, col, 2) 
-                        || Vertically(arrayBoard, row, col, 2) 
-                        || Diagonal(arrayBoard, row, col, 2) 
-                        || Diagonal_main(arrayBoard, row, col, 2)){
-                        stringLoser = "YOU'RE LOSER!";
-                        stringWiner = "~ WINER ~";
-                        socket.broadcast.emit("server-send-loser", stringLoser);
-                        socket.emit("server-send-winer", stringWiner);
+                else {
+                    if (arrayBoard[row][col] === 0) {
+                        arrayBoard[row][col] = 2;
+                        io.sockets.emit("server-send-data", {
+                            name: usr,
+                            x: data.x,
+                            y: data.y,
+                            nguoichoi: vitri,
+                            ArrId: turnPlaylist,
+                            Board: arrayBoard,
+                            value: 2
+                        })
+                        if (Horizontal(arrayBoard, row, col, 2)
+                            || Vertically(arrayBoard, row, col, 2)
+                            || Diagonal(arrayBoard, row, col, 2)
+                            || Diagonal_main(arrayBoard, row, col, 2)) {
+                            stringLoser = "YOU'RE LOSER!";
+                            stringWiner = "~ WINER ~";
+                            socket.broadcast.emit("server-send-loser", stringLoser);
+                            socket.emit("server-send-winer", stringWiner);
+
+                            io.to(usr.room + "_chatroom").emit("server-send-message", formatMessage(botName, `Congratulation ${usr.username} is WINER!!!`));
+                        }
                     }
                 }
             }

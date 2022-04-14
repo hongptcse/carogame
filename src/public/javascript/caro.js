@@ -144,14 +144,16 @@ socket.on("server-send-winer", function (data) {
 
 //----------------------------
 socket.on("server-send-data", function (data) {
-    console.log("gia tri ma client nhan tu server:")
-    console.log("mang nguoi choi :" + data.ArrId)
-    console.log("Id:" + data.name);
-    console.log("nguoi cho thu:", data.nguoichoi)
-    console.log("Ma tran cac nuoc di:", data.Board)
-    console.log("Gia tri cua nguoi choi:" + data.value)
+    console.log(">>> Client receive data from server <<<")
+    console.log("Player turn: ");
+    console.log(data.ArrId);
+    console.log("Id: " + data.name.username);
+    console.log("Player index: ", data.nguoichoi);
+    console.log("Board game values:", data.Board);
+    console.log("Cell value:" + data.value)
     console.log("x_client:" + data.x);
     console.log("y_client:" + data.y);
+    console.log(">>> end <<<")
     let matrix = data.Board;
     let Cur_Row = parseInt(data.x);
     let Cur_Col = parseInt(data.y);
@@ -175,10 +177,10 @@ socket.on("server-send-data", function (data) {
         .style("font-size", "30px")
         .style("fill", function () {
             if (data.nguoichoi === 1) {
-                return "000066"
+                return "#000066"
             }
             else if (data.nguoichoi === 0) {
-                return "FF0000"
+                return "#FF0000"
             }
         })
 })
@@ -216,10 +218,10 @@ function drawPlayedBoard(board) {
                     .style("font-size", "30px")
                     .style("fill", function () {
                         if (cellValue === 2) {
-                            return "000066"
+                            return "#000066"
                         }
                         else if (cellValue === 1) {
-                            return "FF0000"
+                            return "#FF0000"
                         }
                     })
             }
