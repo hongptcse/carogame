@@ -1,3 +1,31 @@
-.card-course-item {
-    margin-top: 16px;
+.split-left {
+    height: 100%;
+    width: 70%;
+    position: fixed;
+    z-index: 1;
+    //top: 0;
+    overflow-x: hidden;
+    padding-top: 10px;
+}
+
+.split-right {
+    height: 100%;
+    width: 30%;
+    position: fixed;
+    z-index: 1;
+    //top: 0;
+    overflow-x: hidden;
+    // padding-top: 10px;
+}
+
+/* Control the left side */
+.left {
+    left: 0;
+    background-color: #f6f7c3;
+}
+
+/* Control the right side */
+.right {
+    right: 0;
+    background-color: #93c3cf;
 }

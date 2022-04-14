@@ -1,1 +1,24 @@
-<h1>home page</h1>
+<div class="mt-4 container">
+    <form method="POST" action="carogame/caro" onsubmit="onSubmitNewGame()">
+        <div class="row">
+            <div class="col-sm">
+                <label for="username">Username:</label>
+                <input type="text" class="form-control" id="username" name="username" autocomplete="on" required>
+            </div>
+            <div class="col-sm">
+                <label for="room">Room Id:</label>
+                <input type="text" class="form-control" id="room" name="room" autocomplete="off" required>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-sm">
+            <button type="submit" class="btn btn-primary">New game</button>
+            </div>
+            <div class="col-sm">
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script src="../javascript/home.js"></script>

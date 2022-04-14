@@ -3,7 +3,11 @@ const { status, render } = require('express/lib/response');
 class SiteController {
     index(req, res, next) {
         res.render('home');
-        //res.send("hongptcse");
+    }
+
+    newGame(req, res, next) {
+        //res.render('home');
+        res.send('hongptcse');
     }
 }
 
