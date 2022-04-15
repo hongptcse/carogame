@@ -27,7 +27,7 @@ const formatMessage = require('./resources/util/message');
 
 
 const app = express();
-const port = 80;
+const port = 8080;
 
 app.use(express.static(path.join(__dirname, 'public')));
 
