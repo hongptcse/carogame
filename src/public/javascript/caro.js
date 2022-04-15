@@ -3,7 +3,9 @@ const chatMessages = document.querySelector('.chat-messages');
 let username = sessionStorage.getItem("username");
 let roomId = sessionStorage.getItem("room");
 
-var socket = io("http://localhost:8080");
+// var socket = io("http://localhost:8080");
+var socket = io("https://carogame-hpt.herokuapp.com/");
+
 
 chatForm.addEventListener('submit', (e) => {
     e.preventDefault();
