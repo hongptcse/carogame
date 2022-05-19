@@ -1,6 +1,6 @@
 // Cac ham tao, kiem tra matrix
 
-function createMatrix (n, init) {
+function CreateMatrix (n, init) {
     let mat = [];
     for (let i = 0; i < n; i++) {
         a = [];
@@ -12,7 +12,26 @@ function createMatrix (n, init) {
     return mat;
 }
 
-function checkBoardEmpty(board, n) {
+function BoardGameToObject (boardGame, size) {
+    var result = [];
+    for(i = 0; i < size; i++) {
+        result.push(boardGame[i].toString());
+    }
+
+    return result;
+}
+
+function ObjectToBoardGame(listObject, size) {
+    var result = [];
+    for (i = 0; i < size; i++) {
+        let tmp = listObject[i].split(',').map(x=>+x);
+        result[i] = tmp;
+    }
+
+    return result;
+}
+
+function CheckBoardEmpty(board, n) {
     let empty = 0;
     for(let i = 0; i < n; i++) {
         let tmp = board[i];
@@ -140,8 +159,10 @@ let Diagonal_main = (Mat, Cur_row, Cur_col, Value) => {
 }
 
 module.exports = {
-    createMatrix,
-    checkBoardEmpty,
+    CreateMatrix,
+    BoardGameToObject,
+    ObjectToBoardGame,
+    CheckBoardEmpty,
     Horizontal,
     Vertically,
     Diagonal,

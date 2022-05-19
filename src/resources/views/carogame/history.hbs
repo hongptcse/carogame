@@ -1,0 +1,17 @@
+<div class="card" style="width: auto; height: auto; font-size: large; margin-top: 10px;">
+    <img class="card-img-top" style="height: 250px; width: 600px; margin-left: auto; margin-right: auto;" src="/img/vs.png" alt="Histories">
+    <div class="card-body">
+        <h5 class="card-title"></h5>
+        <p class="card-text">
+            {{!-- <a href="#" class="btn btn-primary"></a> --}}
+        <ul class="list-group">
+            {{#each histories}}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{this.user01}} vs {{this.user02}}
+                <span class="badge badge-primary badge-pill">winner: {{this.winner}} <span class="oi oi-star"></span></span>
+            </li>
+            {{/each}}
+        </ul>
+        </p>
+    </div>
+</div>

@@ -20,19 +20,19 @@ a {
 .btn {
   cursor: pointer;
   padding: 0px 5px;
-  background: #e6e9ff;
+  /* background: #e6e9ff; */
   border: 0;
   margin-left: 2px; }
 
 /* Chat Page */
 .chat-container {
-  background: #fff;
+  /* background: #fff; */
   overflow: hidden;
   height: 100%; }
 
 .chat-header {
-  background: #93c3cf;
-  color: #fff;
+  /* background: #93c3cf; */
+  /* color: #fff; */
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   padding: 15px;
@@ -90,7 +90,8 @@ a {
 
 .chat-form-container {
   padding: 5px 5px;
-  background-color: #93c3cf; }
+  /* background-color: #93c3cf;  */
+}
 
 .chat-form-container form {
   display: flex; }
