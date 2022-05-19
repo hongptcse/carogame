@@ -10,8 +10,8 @@ const btnDraw = document.getElementById("btnDraw");
 const btnResign = document.getElementById("btnResign");
 const btnNewGame = document.getElementById("btnNewGame");
 
-var socket = io("http://localhost:8080");
-//var socket = io("https://carogame-hpt.herokuapp.com/");
+//var socket = io("http://localhost:8080");
+var socket = io("https://carogame-hpt.herokuapp.com/");
 
 const sec = 60;
 const min = 10;
